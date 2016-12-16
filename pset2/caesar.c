@@ -4,13 +4,21 @@
 #include <string.h>
 #include <ctype.h>
 
-// Make argcount accessible if need to complicate cipher or change functionality
+// Make argument count accessible if need to complicate cipher or change functionality
 #define ARGCOUNT 2
 
 bool checkArgs(int n, int length);
 bool checkPositive(int n);
+int reduceKey(int k);
+int encrypt(char l, int k);
 
 int main(int argc, string argv[]){
+    // make sure argv[1] exists
+    if(argv[1] == NULL){
+        printf("argv[1] must exist\n");
+        return 1;
+    }
+    
     //make argv[1] an int from string
     int shift = atoi(argv[1]);
     
@@ -24,12 +32,18 @@ int main(int argc, string argv[]){
         return 1;
     }
     
-    printf("Made it, our shift is: %i\n", shift);
+    // Reduces down to < 26 shift no matter what positive number
+    shift = reduceKey(shift);
     
-    printf("Let's encrypt a message: \n");
     string input = GetString();
     
-    printf("Your input: %s", input);
+    if (input != NULL){
+        for (int i = 0, n = strlen(input); i < n; i++){
+            input[i] = encrypt(input[i], shift);
+        }
+    }
+    
+    printf("%s\n", input);
     
     return 0;
 }
@@ -45,9 +59,37 @@ bool checkArgs(int n, int length){
 
 // Make sure n is a non-negative integer
 bool checkPositive(int n){
-    if(n < 0){
+    if(n <= 0){
         return false;
     } else {
         return true;
     }
+}
+
+// Allows shift to be 2^31 - 26
+int reduceKey(int key){
+    while(key > 26){
+        key = key % 26;
+    }
+    return key;
+}
+
+int encrypt(char letter, int shift){
+    int encrypted = (int) letter;
+    
+    if(encrypted > 64 && encrypted < 91){
+        if(encrypted + shift > 90){
+            encrypted = encrypted + shift - 26;
+        } else {
+            encrypted += shift;
+        }
+    } else if(encrypted > 96 && encrypted < 123){
+        if(encrypted + shift > 122){
+            encrypted = encrypted + shift -26;
+        } else {
+            encrypted += shift;
+        }
+    }
+    
+    return encrypted;
 }
