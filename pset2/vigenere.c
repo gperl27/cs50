@@ -29,7 +29,7 @@ int main(int argc, string argv[]){
     // loop through arg[v] to see if all are chars
     for(int i = 0, n = strlen(key); i < n; i++){
         if(!isalpha(key[i])){
-            printf("No numeric values allowed\n");
+            printf("Non-numeric values allowed only\n");
             return 1;
         }
     }
@@ -41,6 +41,7 @@ int main(int argc, string argv[]){
     if (input != NULL){
         for (int i = 0, n = strlen(input); i < n; i++){
             if(isalpha(input[i])){
+                // subtract skipCount from i to keep key consistent in pairing up to user input
                 input[i] = encrypt(input[i], keyAssign((int) key[( i - skipCount) % keyLength]));
             } else {
                 skipCount++;
@@ -62,7 +63,7 @@ bool checkArgs(int n, int length){
     }
 }
 
-// Allows shift to be 2^31 - 26
+// Allocate a-z A-Z to be 0-25 for key shifting
 int keyAssign(int keyLetter){
     if(keyLetter > 64 && keyLetter < 91){
         keyLetter %= 65;
