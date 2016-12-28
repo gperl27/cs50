@@ -21,13 +21,34 @@ bool search(int value, int values[], int n)
         return false;
     }
     
-    for(int i = 0; i < n; i++){
-        if(value == values[i]){
+    // binary search
+    // need to search using indices, not values
+    int start  = 0;
+    int end    = n - 1;
+    int middle;
+    
+    while(end >= start){
+        middle = (start + end)/2;
+        
+        if(value == values[middle]){
             return true;
+        } else if (value > values[middle]){
+            start = middle + 1;
+        } else {
+            end = middle - 1;
         }
     }
     
+    // linear search
+    // for(int i = 0; i < n; i++){
+    //     if(value == values[i]){
+    //         return true;
+    //     }
+    // }
+    
     return false;
+    
+    
 }
 
 /**
