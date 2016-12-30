@@ -3,7 +3,7 @@ questions.txt
 Computer Science 50
 Problem Set 3
 
-0. TODO
-1. TODO
-2. TODO
-3. TODO
+0. The game can range between 3 x 3 and 9 x 9
+1. A multidimensional array
+2. A void function called greet 
+3. init, draw, move, and won
