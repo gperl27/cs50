@@ -39,6 +39,7 @@ void init(void);
 void draw(void);
 bool move(int tile);
 bool won(void);
+void swapTiles(int tileX, int tileY, int blankX, int blankY, int tile);
 
 int main(int argc, string argv[])
 {
@@ -67,6 +68,8 @@ int main(int argc, string argv[])
 
     // greet user with instructions
     greet();
+    
+    int board[d][d];
 
     // initialize the board
     init();
@@ -159,7 +162,23 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+    int counter = d*d - 1;
+    
+    for(int i = 0; i < d; i++){
+        for(int j = 0; j < d; j++){
+            board[i][j] = counter;
+            counter--;
+        }
+    }
+    
+    // set last square to not zero and not positive number
+    board[d-1][d-1] = -1;
+    
+    // if odd number of tiles, switch 1 and 2
+    if((d*d) % 2 == 0){
+        board[d-1][d-2] = 2;
+        board[d-1][d-3] = 1;
+    }
 }
 
 /**
@@ -167,7 +186,18 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+    for(int i = 0; i < d; i++){
+        for(int j = 0; j < d; j++){
+            if(board[i][j] == -1){
+                printf(" 0");
+            } else if(board[i][j] > 9){
+                printf(" %i", board[i][j]);
+            } else {
+                printf(" %2i", board[i][j]);
+            }
+        }
+        printf("\n");
+    }
 }
 
 /**
@@ -176,7 +206,30 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
+    
+    for(int i = 0; i < d; i++){
+        for(int j = 0; j < d; j++){
+            if(tile == board[i][j]){
+                    if(board[i-1][j] == -1){
+                        swapTiles(i, j, i-1, j, tile);
+                        return true;
+                    }
+                    else if(board[i+1][j] == -1){
+                        swapTiles(i, j, i+1, j, tile);
+                        return true;
+                    }
+                    else if(board[i][j-1] == -1){
+                        swapTiles(i, j, i, j-1, tile);
+                        return true;
+                    }
+                    else if(board[i][j+1] == -1){
+                        swapTiles(i, j, i, j+1, tile);
+                        return true;
+                    }
+                }
+            }
+        }
+    
     return false;
 }
 
@@ -186,6 +239,33 @@ bool move(int tile)
  */
 bool won(void)
 {
-    // TODO
+    int winningPuzzle[d][d];
+    
+    // to fill winning puzzle
+    // start at 1, increment to d*d
+    int winningSquares = 1;
+    int winningMatches = d*d-1;
+    int matchCounter = 0;
+    
+    
+    for(int i = 0; i < d; i++){
+        for(int j = 0; j < d; j++){
+            winningPuzzle[i][j] = winningSquares;
+            winningSquares++;
+            if(winningPuzzle[i][j] == board[i][j]){
+                matchCounter++;
+            }
+        }
+    }
+    
+    if(matchCounter == winningMatches){
+        return true;
+    }
+    
     return false;
+}
+
+void swapTiles(int tileX, int tileY, int blankX, int blankY, int tile){
+    board[tileX][tileY] = -1;
+    board[blankX][blankY] = tile;
 }
