@@ -68,8 +68,6 @@ int main(int argc, string argv[])
 
     // greet user with instructions
     greet();
-    
-    int board[d][d];
 
     // initialize the board
     init();
@@ -171,9 +169,6 @@ void init(void)
         }
     }
     
-    // set last square to not zero and not positive number
-    board[d-1][d-1] = -1;
-    
     // if odd number of tiles, switch 1 and 2
     if((d*d) % 2 == 0){
         board[d-1][d-2] = 2;
@@ -188,12 +183,10 @@ void draw(void)
 {
     for(int i = 0; i < d; i++){
         for(int j = 0; j < d; j++){
-            if(board[i][j] == -1){
-                printf(" 0");
-            } else if(board[i][j] > 9){
-                printf(" %i", board[i][j]);
+            if(board[i][j] > 9){
+                printf("%d", board[i][j]);
             } else {
-                printf(" %2i", board[i][j]);
+                printf("%2d", board[i][j]);
             }
         }
         printf("\n");
@@ -210,19 +203,19 @@ bool move(int tile)
     for(int i = 0; i < d; i++){
         for(int j = 0; j < d; j++){
             if(tile == board[i][j]){
-                    if(board[i-1][j] == -1){
+                    if(board[i-1][j] == 0 && i-1 >= 0){
                         swapTiles(i, j, i-1, j, tile);
                         return true;
                     }
-                    else if(board[i+1][j] == -1){
+                    else if(board[i+1][j] == 0 && i+1 <= d-1){
                         swapTiles(i, j, i+1, j, tile);
                         return true;
                     }
-                    else if(board[i][j-1] == -1){
+                    else if(board[i][j-1] == 0 && j-1 >=0){
                         swapTiles(i, j, i, j-1, tile);
                         return true;
                     }
-                    else if(board[i][j+1] == -1){
+                    else if(board[i][j+1] == 0 && j+1 <= d-1){
                         swapTiles(i, j, i, j+1, tile);
                         return true;
                     }
@@ -266,6 +259,6 @@ bool won(void)
 }
 
 void swapTiles(int tileX, int tileY, int blankX, int blankY, int tile){
-    board[tileX][tileY] = -1;
+    board[tileX][tileY] = 0;
     board[blankX][blankY] = tile;
 }
