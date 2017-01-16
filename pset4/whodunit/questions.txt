@@ -1,0 +1,12 @@
+1. stdint.h is a library that allows for new definition of basic datatypes. This helps with portability across different machines and hardware so our programs can run correctly.
+2. Any int declaration with a "u" in front of it means it is unsigned. Unsigned integers are assumed postive by the computer. Normal ints can be negative, zero, or postive. We can decide exactly how much space we want our data to be.
+3. BYTE = 1 byte, DWORD = 4 bytes, LONG = 4 bytes, WORD = 2 bytes
+4. "BM" in ASCII
+5. bfSize is the size of the bitmap fileheader, while biSize is the size of the bitmap infoheader.
+6. For uncompressed RGB bitmaps, if biHeight is negative, the bitmap is shown top-down with the origin in the upperleft corner. For YUV bitmaps, bitmaps will always be top-down, no matter the sign of biHeight. For compressed formats, biHeight cannot be negative.
+7. biBitCount
+8. File is formatted incorrectly (wrong headers), the file may not exist, or the file might exist but be empty.
+9. The third argument refers to how many elements we are referring to. In this case, we only have one file, thus 1 element.
+10. 3, since RGB size is 3 bytes and sizeOf returns size in bytes. 
+11. fseek writes to a file at a certain position (or offset), overwriting from the position and forward.
+12. SEEK_CUR is the current position of the file pointer.
