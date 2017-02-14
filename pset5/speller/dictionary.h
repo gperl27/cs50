@@ -4,12 +4,25 @@
 
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
 
 #include <stdbool.h>
 
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45
+#define HT_SIZE 65536
+
+// Setup node struct for dictionary slots
+typedef struct node {
+    char word[LENGTH + 1];
+    struct node *next;
+}
+node;
+
 
 /**
  * Returns true if word is in dictionary else false.
